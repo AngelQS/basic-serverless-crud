@@ -14,12 +14,6 @@ plugins:
   - serverless-dynamodb
   - serverless-offline
 
-package: 
-  individually: true
-  patterns:
-    - '!.dynamodb'
-    # - '!node_modules'
-
 custom:
   serverless-dynamodb:
     stages:
@@ -32,18 +26,27 @@ custom:
 functions:
   get-users:
     handler: getUsers/handler.getUsers
+    package:
+      patterns:
+        - 'getUsers/handler.js'
     events:
       - http:
           path: users/{id}
           method: GET
   create-users:
     handler: createUsers/handler.createUsers
+    package:
+      patterns:
+        - 'createUsers/handler.js'
     events:
       - http:
           path: users
           method: POST
   update-users:
     handler: updateUsers/handler.updateUsers
+    package:
+      patterns:
+        - 'updateUsers/handler.js'
     events:
       - http:
           path: users/{id}
@@ -51,6 +54,9 @@ functions:
   delete-users:
     handler: deleteUsers/handler.deleteUsers
     runtime: python3.8
+    package:
+      patterns:
+        - 'deleteUsers/handler.py'
     events:
       - http:
           path: users/{id}
